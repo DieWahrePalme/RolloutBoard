@@ -1,6 +1,6 @@
 import type { BoardEvent, PcStatus, PcSummary } from '../types'
 
-export const STALE_AFTER_MS = 15 * 60 * 1000
+export const STALE_AFTER_MS = 30 * 60 * 1000
 export const FINISHED_VISIBLE_MS = 10 * 1000
 export const HISTORY_HOURS = 24
 export const TILE_EVENT_COUNT = 3
@@ -35,6 +35,19 @@ export function countByStatus(pcs: readonly PcSummary[]): Record<PcStatus, numbe
   const counts: Record<PcStatus, number> = { working: 0, error: 0, finished: 0, stale: 0 }
   for (const pc of pcs) counts[pc.status] += 1
   return counts
+}
+
+/** Milliseconds until a working PC turns inactive, or null if it is not counting down. */
+export function msUntilStale(pc: PcSummary, now: number): number | null {
+  if (pc.status !== 'working') return null
+  return Math.max(0, pc.lastEventAt + STALE_AFTER_MS - now)
+}
+
+export function formatCountdown(ms: number): string {
+  const totalSeconds = Math.ceil(ms / 1000)
+  const minutes = Math.floor(totalSeconds / 60)
+  const seconds = totalSeconds % 60
+  return `${minutes}:${String(seconds).padStart(2, '0')}`
 }
 
 export function formatTime(iso: string | number): string {

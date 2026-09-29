@@ -87,5 +87,5 @@ key). Every push to `main` builds and deploys to
 ## Board colors
 
 Blue = working · red = last event is `error` · green = `finished` (disappears
-after ~10 s unless "Fertige zeigen") · grey = no event for 15+ min.
+after ~10 s unless "Fertige zeigen") · grey = no event for 30+ min (a countdown "ruhig in m:ss" runs on working tiles).
 "Board leeren" hides everything older than now in this browser only.

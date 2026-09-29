@@ -95,7 +95,7 @@ Invoke-RestMethod -Method Post -Uri "https://<project>.supabase.co/functions/v1/
   icon each (⏳ running, ✓ done, ✗ error) and time.
 - **Colors**: blue = working, red = last event is `error`, green =
   `finished` (fades out after ~10 s unless "show finished" is on),
-  grey = no event for 15+ min.
+  grey = no event for 30+ min (countdown shown on working tiles).
 - **Click a tile** → detail panel/modal with **all** events of that PC,
   with timestamps.
 - **Live**: new events appear without reload (Supabase realtime). Load

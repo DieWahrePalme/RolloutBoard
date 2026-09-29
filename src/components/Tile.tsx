@@ -1,13 +1,15 @@
-import { TILE_EVENT_COUNT, formatTime } from '../lib/board'
+import { TILE_EVENT_COUNT, formatCountdown, formatTime, msUntilStale } from '../lib/board'
 import type { PcSummary } from '../types'
 import { EventIcon } from './EventIcon'
 
 interface TileProps {
   pc: PcSummary
+  now: number
   onOpen: (client: string) => void
 }
 
-export function Tile({ pc, onOpen }: TileProps) {
+export function Tile({ pc, now, onOpen }: TileProps) {
+  const remaining = msUntilStale(pc, now)
   const latest = pc.events.slice(-TILE_EVENT_COUNT).reverse()
   return (
     <button className={`tile tile-${pc.status}`} onClick={() => onOpen(pc.client)}>
@@ -21,6 +23,9 @@ export function Tile({ pc, onOpen }: TileProps) {
           </li>
         ))}
       </ul>
+      {remaining !== null && (
+        <div className="tile-countdown">ruhig in {formatCountdown(remaining)}</div>
+      )}
     </button>
   )
 }

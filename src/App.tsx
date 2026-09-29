@@ -45,7 +45,7 @@ export default function App() {
       ) : (
         <main className="grid">
           {visible.map((pc) => (
-            <Tile key={pc.client} pc={pc} onOpen={setOpenClient} />
+            <Tile key={pc.client} pc={pc} now={now} onOpen={setOpenClient} />
           ))}
         </main>
       )}

@@ -91,3 +91,5 @@ time { opacity: 0.8; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
 .modal h2 { margin: 0; font-size: 1.8rem; }
 .modal-events li { font-size: 1.1rem; padding: 4px 0; }
 .modal-events .event-text { white-space: normal; }
+
+.tile-countdown { margin-top: 6px; font-size: 0.8rem; opacity: 0.75; font-variant-numeric: tabular-nums; }
