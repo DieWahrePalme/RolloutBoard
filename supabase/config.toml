@@ -1,0 +1,4 @@
+project_id = "RolloutBoard"
+
+[functions.report]
+verify_jwt = false
