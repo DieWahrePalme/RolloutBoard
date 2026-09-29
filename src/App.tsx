@@ -6,6 +6,7 @@ import { useClearedAt } from './hooks/useClearedAt'
 import { useEvents } from './hooks/useEvents'
 import { useNow } from './hooks/useNow'
 import { countByStatus, isVisible, summarize } from './lib/board'
+import { isDemoMode } from './lib/demo'
 import { isConfigured } from './lib/supabase'
 
 export default function App() {
@@ -14,15 +15,16 @@ export default function App() {
   const [showFinished, setShowFinished] = useState(false)
   const [openClient, setOpenClient] = useState<string | null>(null)
   const now = useNow()
+  const demo = isDemoMode()
 
   const pcs = useMemo(
-    () => summarize(events.filter((event) => Date.parse(event.created_at) > clearedAt), now),
-    [events, clearedAt, now],
+    () => summarize(events.filter((event) => Date.parse(event.created_at) > (demo ? 0 : clearedAt)), now),
+    [events, clearedAt, demo, now],
   )
   const visible = pcs.filter((pc) => isVisible(pc, showFinished, now))
   const openPc = pcs.find((pc) => pc.client === openClient)
 
-  if (!isConfigured) {
+  if (!isConfigured && !demo) {
     return (
       <main className="message">
         VITE_SUPABASE_URL und VITE_SUPABASE_ANON_KEY fehlen (siehe .env.example).
@@ -39,6 +41,7 @@ export default function App() {
         onToggleFinished={setShowFinished}
         onClear={clearBoard}
       />
+      {demo && <div className="demo-banner">Demo-Modus: ausgedachte PCs, keine echten Daten</div>}
       {error && <div className="error-banner">{error}</div>}
       {visible.length === 0 ? (
         <main className="message">Warte auf Meldungen der PCs …</main>

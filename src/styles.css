@@ -41,7 +41,7 @@ button { font: inherit; cursor: pointer; }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   gap: 10px;
   padding: 12px 20px;
 }
@@ -92,4 +92,5 @@ time { opacity: 0.8; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
 .modal-events li { font-size: 1.1rem; padding: 4px 0; }
 .modal-events .event-text { white-space: normal; }
 
-.tile-countdown { margin-top: 6px; font-size: 0.8rem; opacity: 0.75; font-variant-numeric: tabular-nums; }
+.countdown { font-size: 0.8rem; font-weight: 700; padding: 0 6px; border-radius: 4px; background: rgba(0, 0, 0, 0.3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.demo-banner { background: #9e6a03; padding: 6px 20px; text-align: center; }

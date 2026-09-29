@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { HISTORY_HOURS } from '../lib/board'
+import { createDemoEvents, isDemoMode } from '../lib/demo'
 import type { BoardEvent } from '../types'
 
 const MAX_LOADED_EVENTS = 1000
@@ -18,7 +19,10 @@ function mergeEvents(current: readonly BoardEvent[], incoming: readonly BoardEve
 }
 
 export function useEvents(): EventsState {
-  const [events, setEvents] = useState<readonly BoardEvent[]>([])
+  const demo = isDemoMode()
+  const [events, setEvents] = useState<readonly BoardEvent[]>(() =>
+    demo ? createDemoEvents(Date.now()) : [],
+  )
   const [error, setError] = useState<string | null>(null)
   const [connected, setConnected] = useState(false)
 
@@ -40,7 +44,7 @@ export function useEvents(): EventsState {
   }, [])
 
   useEffect(() => {
-    if (!supabase) return
+    if (!supabase || demo) return
     const channel = supabase
       .channel('events-insert')
       .on(
@@ -56,7 +60,7 @@ export function useEvents(): EventsState {
     return () => {
       void supabase?.removeChannel(channel)
     }
-  }, [loadRecent])
+  }, [loadRecent, demo])
 
-  return { events, error, connected }
+  return { events, error, connected: demo || connected }
 }
