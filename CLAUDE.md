@@ -6,6 +6,9 @@ POST (from ACMP client commands); a big-monitor page shows one tile per PC.
 What we are building and why:
 @docs/PRD.md
 
+Where we left off last time (read first):
+@docs/HANDOFF.md
+
 ## About the user
 
 Moritz is not a professional developer. He often writes from his phone
@@ -30,6 +33,7 @@ simply and give exact commands to paste.
   creating repos, or changing GitHub/Supabase settings.
 - Run `npx tsc --noEmit` and `npm run build` before saying something works.
 - Keep the MVP small (PRD §3). Ideas outside the scope go into PRD §8.
+- **Before Moritz ends a session** (or when he says "handoff"), update docs/HANDOFF.md: replace it with the current state, keep it short. It is loaded automatically at the next start.
 
 ## Reference material
 
