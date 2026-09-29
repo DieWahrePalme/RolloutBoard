@@ -15,17 +15,19 @@ export function Tile({ pc, now, onOpen }: TileProps) {
     <button className={`tile tile-${pc.status}`} onClick={() => onOpen(pc.client)}>
       <div className="tile-name">{pc.client}</div>
       <ul className="tile-events">
-        {latest.map((event) => (
+        {latest.map((event, index) => (
           <li key={event.id}>
             <EventIcon state={event.state} />
             <span className="event-text">{event.text}</span>
             <time>{formatTime(event.created_at)}</time>
+            {index === 0 && remaining !== null && (
+              <span className="countdown" title="Zeit bis die Kachel inaktiv wird">
+                ⏱ {formatCountdown(remaining)}
+              </span>
+            )}
           </li>
         ))}
       </ul>
-      {remaining !== null && (
-        <div className="tile-countdown">ruhig in {formatCountdown(remaining)}</div>
-      )}
     </button>
   )
 }
