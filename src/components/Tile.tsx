@@ -1,6 +1,7 @@
 import { TILE_EVENT_COUNT, formatCountdown, formatTime, msUntilStale } from '../lib/board'
 import type { PcSummary } from '../types'
 import { EventIcon } from './EventIcon'
+import { StatusDot } from './StatusDot'
 
 interface TileProps {
   pc: PcSummary
@@ -12,8 +13,11 @@ export function Tile({ pc, now, onOpen }: TileProps) {
   const remaining = msUntilStale(pc, now)
   const latest = pc.events.slice(-TILE_EVENT_COUNT).reverse()
   return (
-    <button className={`tile tile-${pc.status}`} onClick={() => onOpen(pc.client)}>
-      <div className="tile-name">{pc.client}</div>
+    <button className="tile" onClick={() => onOpen(pc.client)}>
+      <div className="tile-name">
+        <StatusDot status={pc.status} />
+        {pc.client}
+      </div>
       <ul className="tile-events">
         {latest.map((event, index) => (
           <li key={event.id}>

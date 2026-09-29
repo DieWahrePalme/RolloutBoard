@@ -3,7 +3,10 @@ import type { BoardEvent, PcStatus, PcSummary } from '../types'
 export const STALE_AFTER_MS = 30 * 60 * 1000
 export const FINISHED_VISIBLE_MS = 10 * 1000
 export const HISTORY_HOURS = 24
-export const TILE_EVENT_COUNT = 3
+export const TILE_EVENT_COUNT = 8 // more than fit; the tile clips the oldest ones
+export const GRID_COLUMNS = 6
+export const GRID_ROWS = 5
+export const PAGE_SIZE = GRID_COLUMNS * GRID_ROWS
 
 function statusOf(last: BoardEvent, lastEventAt: number, now: number): PcStatus {
   if (last.state === 'finished') return 'finished'
@@ -48,6 +51,10 @@ export function formatCountdown(ms: number): string {
   const minutes = Math.floor(totalSeconds / 60)
   const seconds = totalSeconds % 60
   return `${minutes}:${String(seconds).padStart(2, '0')}`
+}
+
+export function pageCountFor(itemCount: number): number {
+  return Math.max(1, Math.ceil(itemCount / PAGE_SIZE))
 }
 
 export function formatTime(iso: string | number): string {

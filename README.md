@@ -84,8 +84,11 @@ In the GitHub repo: *Settings → Pages → Source: GitHub Actions*, and under
 key). Every push to `main` builds and deploys to
 `https://diewahrepalme.github.io/RolloutBoard/`.
 
-## Board colors
+## Board
 
-Blue = working · red = last event is `error` · green = `finished` (disappears
-after ~10 s unless "Fertige zeigen") · grey = no event for 30+ min (a countdown "ruhig in m:ss" runs on working tiles).
+6 x 5 tiles per page (30 PCs), more PCs on further pages. The small dot next
+to the PC name: blue = working · red = last event is `error` · green =
+`finished` (disappears after ~10 s unless "Fertige zeigen") · grey = no event
+for 30+ min (a countdown runs next to the newest event of working PCs).
 "Board leeren" hides everything older than now in this browser only.
+Add `?demo` to the URL to see 30 made-up PCs.

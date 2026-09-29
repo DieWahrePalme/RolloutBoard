@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { formatDateTime } from '../lib/board'
 import type { PcSummary } from '../types'
 import { EventIcon } from './EventIcon'
+import { StatusDot } from './StatusDot'
 
 interface DetailModalProps {
   pc: PcSummary
@@ -17,9 +18,12 @@ export function DetailModal({ pc, onClose }: DetailModalProps) {
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <div className={`modal tile-${pc.status}`} onClick={(event) => event.stopPropagation()}>
+      <div className="modal" onClick={(event) => event.stopPropagation()}>
         <header>
-          <h2>{pc.client}</h2>
+          <h2>
+            <StatusDot status={pc.status} />
+            {pc.client}
+          </h2>
           <button onClick={onClose}>Schließen</button>
         </header>
         <ul className="modal-events">

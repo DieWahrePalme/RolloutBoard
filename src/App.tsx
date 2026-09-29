@@ -5,7 +5,7 @@ import { Tile } from './components/Tile'
 import { useClearedAt } from './hooks/useClearedAt'
 import { useEvents } from './hooks/useEvents'
 import { useNow } from './hooks/useNow'
-import { countByStatus, isVisible, summarize } from './lib/board'
+import { PAGE_SIZE, countByStatus, isVisible, pageCountFor, summarize } from './lib/board'
 import { isDemoMode } from './lib/demo'
 import { isConfigured } from './lib/supabase'
 
@@ -13,6 +13,7 @@ export default function App() {
   const { events, error, connected } = useEvents()
   const [clearedAt, clearBoard] = useClearedAt()
   const [showFinished, setShowFinished] = useState(false)
+  const [page, setPage] = useState(0)
   const [openClient, setOpenClient] = useState<string | null>(null)
   const now = useNow()
   const demo = isDemoMode()
@@ -22,6 +23,9 @@ export default function App() {
     [events, clearedAt, demo, now],
   )
   const visible = pcs.filter((pc) => isVisible(pc, showFinished, now))
+  const pageCount = pageCountFor(visible.length)
+  const currentPage = Math.min(page, pageCount - 1)
+  const pagePcs = visible.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE)
   const openPc = pcs.find((pc) => pc.client === openClient)
 
   if (!isConfigured && !demo) {
@@ -33,11 +37,14 @@ export default function App() {
   }
 
   return (
-    <>
+    <div className="app">
       <Header
         counts={countByStatus(pcs)}
         showFinished={showFinished}
         connected={connected}
+        page={currentPage}
+        pageCount={pageCount}
+        onPageChange={setPage}
         onToggleFinished={setShowFinished}
         onClear={clearBoard}
       />
@@ -47,12 +54,12 @@ export default function App() {
         <main className="message">Warte auf Meldungen der PCs …</main>
       ) : (
         <main className="grid">
-          {visible.map((pc) => (
+          {pagePcs.map((pc) => (
             <Tile key={pc.client} pc={pc} now={now} onOpen={setOpenClient} />
           ))}
         </main>
       )}
       {openPc && <DetailModal pc={openPc} onClose={() => setOpenClient(null)} />}
-    </>
+    </div>
   )
 }

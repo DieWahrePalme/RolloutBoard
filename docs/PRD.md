@@ -90,12 +90,14 @@ Invoke-RestMethod -Method Post -Uri "https://<project>.supabase.co/functions/v1/
 
 - **Header bar**: title, counters (working / error / finished / stale),
   toggle "show finished", button "clear board".
-- **Grid of tiles**, dense, many per row, fits 30+ PCs on one screen.
-- **Tile**: PC name on top; below, the **last 3 events** as a list with an
-  icon each (⏳ running, ✓ done, ✗ error) and time.
-- **Colors**: blue = working, red = last event is `error`, green =
-  `finished` (fades out after ~10 s unless "show finished" is on),
-  grey = no event for 30+ min (countdown shown on working tiles).
+- **Grid of tiles**: fixed 6 columns x 5 rows = 30 PCs per page, filling the
+  screen; more PCs go on further pages (pager in the header).
+- **Tile**: PC name centered on top with a small status dot; below, the
+  latest events (as many as fit) with an icon each (⏳ running, ✓ done,
+  ✗ error) and time; countdown to "inactive" next to the newest event.
+- **Status dot** (tiles stay neutral): blue = working, red = last event is
+  `error`, green = `finished` (fades out after ~10 s unless "show finished"
+  is on), grey = no event for 30+ min.
 - **Click a tile** → detail panel/modal with **all** events of that PC,
   with timestamps.
 - **Live**: new events appear without reload (Supabase realtime). Load
