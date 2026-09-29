@@ -70,8 +70,15 @@ Table `events`: `id bigint identity`, `client text`, `text text`,
 `state text check (state in (...))`, `created_at timestamptz default now()`.
 RLS on: anon may `select` only; inserts only via the edge function.
 
-Examples to include in the README: `curl`, and a PowerShell one-liner for
-ACMP:
+**Decided:** reports are sent by ACMP's own HTTP request in the client
+command (more future-proof than scripts). The README must show exactly what
+to fill into that command: URL, method POST, header
+`Content-Type: application/json`, and a JSON body template such as
+`{"client":"%COMPUTERNAME%","text":"Installing TeamViewer","state":"running"}`
+(use whatever ACMP variable holds the computer name). Keep the query-parameter
+fallback in case the ACMP command can't send a body.
+
+Also include `curl` for testing, and a PowerShell one-liner as a backup:
 
 ```powershell
 Invoke-RestMethod -Method Post -Uri "https://<project>.supabase.co/functions/v1/report" `
@@ -115,7 +122,5 @@ Invoke-RestMethod -Method Post -Uri "https://<project>.supabase.co/functions/v1/
 
 ## 9. Open questions
 
-- Can the ACMP client command set a JSON body and headers directly, or do
-  we go through PowerShell? (Both are supported by §5.)
 - Is it OK with Moritz's employer to send PC names and status texts to
   Supabase (EU region)?
